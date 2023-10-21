@@ -1,17 +1,12 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { FC } from "react";
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-  priority: string;
-}
+import { getColor } from "../utils/index";
+import { Task } from "../interfaces/task";
 
 interface SortableItemProps {
   item: Task;
+  id: string;
 }
 
 const SortableItem: FC<SortableItemProps> = (props) => {
@@ -29,13 +24,19 @@ const SortableItem: FC<SortableItemProps> = (props) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="text-lg bg-gray-50 rounded-md px-4 py-1.5 mb-2 last-of-type:mb-0"
+      className="text-lg bg-gray-50 rounded-lg p-3 mb-2  last-of-type:mb-0 relative"
     >
-      {props.item.id}
-      {props.item.title}
-      {props.item.description}
-      {props.item.status}
-      {props.item.priority}
+      <p className="font-semibold mb-2">
+        {props.item.title}
+        <span
+          className={`font-normal ml-3 bg-${getColor(
+            props.id
+          )}-100 rounded-lg px-2 py-1 text-sm text-gray-600`}
+        >
+          {props.item.status}
+        </span>
+      </p>
+      <p>{props.item.description}</p>
     </li>
   );
 };

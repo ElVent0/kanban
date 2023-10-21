@@ -1,12 +1,5 @@
 import { DragOverEvent, DragEndEvent } from "@dnd-kit/core";
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-  priority: string;
-}
+import { Task } from "../interfaces/task";
 
 type Items = Record<string, Task[]>;
 
@@ -33,10 +26,11 @@ export const handleDragOver = (
     const activeItems = prev[activeContainer] || [];
     const overItems = prev[overContainer] || [];
 
-    // const activeIndex = activeItems.indexOf(String(id));
-    // const overIndex = overItems.indexOf(String(overId));
     const activeIndex = activeItems.filter((item) => item.id === id)[0].id;
-    const overIndex = overItems.filter((item) => item.id === overId)[0].id;
+    const overIndex =
+      overItems.length > 0 && !isNaN(overId)
+        ? overItems.filter((item) => item.id === overId)[0].id
+        : -1;
 
     let newIndex: number;
     if (overId in prev) {
@@ -52,23 +46,9 @@ export const handleDragOver = (
       newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length;
     }
 
-    // console.log("--------------------", activeContainer, activeIndex);
-
     const objectWithOurIndex = items[activeContainer].filter(
       (item) => item.id === activeIndex
     );
-
-    // console.log("==============", items, {
-    //   ...prev,
-    //   [activeContainer]: [...activeItems.filter((item) => item.id !== id)],
-    //   [overContainer]: [
-    //     ...overItems.slice(0, newIndex),
-    //     items[activeContainer][
-    //       items[activeContainer].indexOf(objectWithOurIndex[0])
-    //     ],
-    //     ...overItems.slice(newIndex, overItems.length),
-    //   ],
-    // });
 
     return {
       ...prev,
@@ -104,8 +84,6 @@ export const handleDragEnd = (
     return;
   }
 
-  // const activeIndex = (items[activeContainer] || []).indexOf(String(id));
-  // const overIndex = (items[overContainer] || []).indexOf(String(overId));
   const activeIndex = (items[activeContainer] || []).filter(
     (item) => item.id === id
   )[0].id;
@@ -117,28 +95,27 @@ export const handleDragEnd = (
     (item) => item.id === activeIndex
   );
 
-  // console.log(
-  //   "========",
-  //   items[overContainer],
-  //   items[activeContainer],
-  //   activeIndex,
-  //   overIndex,
-  //   {
-  //     ...items,
-  //     [overContainer]: arrayMove(
-  //       items[overContainer] || [],
-  //       activeIndex,
-  //       overIndex
-  //     ),
-  //   }
-  // );
+  const newArray = (prevItems) => {
+    const resultArray = prevItems[overContainer].map((item, index) => {
+      if (index === prevItems[activeContainer].indexOf(objectWithOurIndex[0])) {
+        const newItem = { ...item };
+        newItem.status = overContainer;
+        return newItem;
+      } else {
+        return item;
+      }
+    });
+
+    console.log(1, resultArray);
+    return resultArray;
+  };
 
   if (activeIndex !== overIndex) {
     setItems((prevItems) => ({
       ...prevItems,
       [overContainer]: arrayMove(
-        prevItems[overContainer] || [],
-        items[activeContainer].indexOf(objectWithOurIndex[0]),
+        newArray(prevItems) || [],
+        prevItems[activeContainer].indexOf(objectWithOurIndex[0]),
         overIndex
       ),
     }));
