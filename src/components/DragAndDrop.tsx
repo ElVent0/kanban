@@ -5,6 +5,9 @@ import SortableList from "./SortableList";
 import { handleDragOver, handleDragEnd } from "../utils/index";
 import { useDefaultSensors } from "../hooks/useDefaultSensors";
 import { useGetItems } from "../hooks/useGetItems";
+// import { Task } from "../interfaces/task";
+
+// type Items = Record<string, Task[]>;
 
 const DragAndDrop: FC = () => {
   // Щодо пріоритетності. В об'єкті, що було запропоновано завданням, були
