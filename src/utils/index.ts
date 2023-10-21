@@ -1,4 +1,4 @@
-import { getColor } from "./getColor";
+import { getColor, getLightColor } from "./getColor";
 import { handleDragOver, handleDragEnd } from "./handleDrag";
 
-export { getColor, handleDragOver, handleDragEnd };
+export { getColor, getLightColor, handleDragOver, handleDragEnd };

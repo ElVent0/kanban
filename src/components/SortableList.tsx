@@ -20,7 +20,10 @@ const SortableList: FC<SortableListProps> = ({ items, id }) => {
   });
 
   return (
-    <ul className={`w-64 mr-4 p-2 border  bg-${getColor(id)}-400 rounded-xl`}>
+    <ul
+      className={`w-64 mr-4 p-2 border rounded-xl`}
+      style={{ backgroundColor: getColor(id) }}
+    >
       <SortableContext
         id={id}
         items={items}
