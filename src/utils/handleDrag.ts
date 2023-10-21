@@ -30,8 +30,6 @@ export const handleDragOver = (
       const activeItems = prev[activeContainer] || [];
       const overItems = prev[overContainer] || [];
 
-      console.log(overId);
-
       const activeIndex = activeItems.filter((item) => item.id === id)[0].id;
 
       let overIndex = 0;
@@ -41,11 +39,6 @@ export const handleDragOver = (
             ? overItems.filter((item) => item.id === overId)[0].id
             : -1;
       }
-
-      // const overIndex =
-      //   overItems.length > 0 && !isNaN(overId)
-      //     ? overItems.filter((item) => item.id === overId)[0].id
-      //     : -1;
 
       let newIndex: number;
       if (overId in prev) {
