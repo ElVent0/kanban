@@ -5,7 +5,7 @@ type Items = Record<string, Task[]>;
 
 export interface DragAndDropProps {
   columns: string[];
-  itemField: string;
+  itemField: keyof Task;
   itemsOriginal: Task[];
   onChangeOver: (
     event: DragOverEvent,

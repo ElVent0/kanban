@@ -19,33 +19,12 @@ export const useGetItems = ({
 
   useEffect(() => {
     const getItems = () => {
-      // setItems(array.filter((item) => item[itemField] === ));
-
-      // let defaultItems = {};
-      // for (const key of columns) {
-      //   (defaultItems as Record<string, Task[]>)[key] = array.filter(
-      //     (item) => key === (item as Task)[itemField]
-      //   );
-      // }
-
-      array.map((item) => statuses.push(item[itemField] as string));
       const newArray = array.sort((a, b) => a.priority - b.priority);
-      const resultStatuses: string[] = statuses.filter(
-        (item, index, newArray) => newArray.indexOf(item) === index
-      );
 
       const resultItems: Record<string, Task[]> = {};
-      resultStatuses.forEach((item) => (resultItems[item] = []));
+      statuses.forEach((item) => (resultItems[item] = []));
       newArray.forEach((item) => {
-        const newItem = {
-          id: item.id,
-          title: item.title,
-          description: item.description,
-          status: item[itemField],
-          priority: item.priority,
-          // [item[itemField]]: item[itemField] as string,
-        };
-        resultItems[item[itemField]].push(newItem);
+        resultItems[item[itemField]].push(item);
       });
 
       setItems(resultItems);

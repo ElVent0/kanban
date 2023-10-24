@@ -19,8 +19,6 @@ const SortableItem: FC<SortableItemProps> = (props) => {
     transition,
   };
 
-  console.log(1234, props.item.status, props.item[props.itemField]);
-
   return (
     <li
       ref={setNodeRef}
