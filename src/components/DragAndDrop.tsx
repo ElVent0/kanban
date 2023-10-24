@@ -2,17 +2,22 @@ import { FC } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import SortableList from "./SortableList";
-import { handleDragOver, handleDragEnd } from "../utils/index";
 import { useDefaultSensors } from "../hooks/useDefaultSensors";
 import { useGetItems } from "../hooks/useGetItems";
+import { DragAndDropProps } from "../types/dragAndDropProps";
 
-const DragAndDrop: FC = () => {
-  // Щодо пріоритетності. В масиві, що було запропоновано завданням, були
-  // елементи з однаковою пріоритетністю в межах одного списку. Тому тільки
-  // на етапі "монтажу" відсортував за пріоритетністю (без можливості змінювати
-  // її при перетягуванні)
-
-  const { items, setItems } = useGetItems();
+const DragAndDrop: FC<DragAndDropProps> = ({
+  columns,
+  itemField,
+  itemsOriginal,
+  onChangeOver,
+  onChangeEnd,
+}) => {
+  const { items, setItems } = useGetItems({
+    columns,
+    itemsOriginal,
+    itemField,
+  });
   const sensors = useDefaultSensors();
 
   return (
@@ -20,8 +25,10 @@ const DragAndDrop: FC = () => {
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
-        onDragOver={(event) => handleDragOver(event, setItems, items)}
-        onDragEnd={(event) => handleDragEnd(event, items, setItems, arrayMove)}
+        onDragOver={(event) => onChangeOver(event, setItems, items)}
+        onDragEnd={(event) =>
+          onChangeEnd(event, items, setItems, arrayMove, itemField)
+        }
       >
         {!!items &&
           Object.entries(items).map(([key, value], index) => {
@@ -30,7 +37,7 @@ const DragAndDrop: FC = () => {
                 <p className="mb-2 text-gray-800 font-semibold">
                   {key.charAt(0).toUpperCase() + key.slice(1)}
                 </p>
-                <SortableList items={value} id={key} />
+                <SortableList items={value} id={key} itemField={itemField} />
               </div>
             );
           })}

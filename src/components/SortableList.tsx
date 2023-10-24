@@ -7,14 +7,15 @@ import SortableItem from "./SortableItem";
 import { useDroppable } from "@dnd-kit/core";
 import { AiOutlinePlus } from "react-icons/ai";
 import { getColor } from "../utils/index";
-import { Task } from "../interfaces/task";
+import { Task } from "../task";
 
 interface SortableListProps {
   items: Task[];
   id: string;
+  itemField: string;
 }
 
-const SortableList: FC<SortableListProps> = ({ items, id }) => {
+const SortableList: FC<SortableListProps> = ({ items, id, itemField }) => {
   const { setNodeRef } = useDroppable({
     id,
   });
@@ -32,7 +33,12 @@ const SortableList: FC<SortableListProps> = ({ items, id }) => {
         <div ref={setNodeRef}>
           {items.length > 0 ? (
             items.map((item, index) => (
-              <SortableItem key={index} item={item} id={id} />
+              <SortableItem
+                key={index}
+                item={item}
+                id={id}
+                itemField={itemField}
+              />
             ))
           ) : (
             <div className="h-20 flex justify-center items-center">

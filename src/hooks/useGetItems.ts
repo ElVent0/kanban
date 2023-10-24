@@ -1,22 +1,34 @@
 import { useEffect, useState } from "react";
-import array from "../data/data.json";
-import { Task } from "../interfaces/task";
+// import array from "../data/data.json";
+import { Task } from "../types/task";
 
-export const useGetItems = () => {
+interface UseGetItemsProps {
+  columns: string[];
+  itemsOriginal: Task[];
+  itemField: keyof Task;
+}
+
+export const useGetItems = ({
+  columns,
+  itemsOriginal: array,
+  itemField,
+}: UseGetItemsProps) => {
   const [items, setItems] = useState<Record<string, Task[]>>();
 
-  // Статуси захардкодив, бо їх черговість не можна визначати на
-  // фронті(за умовою списки, що приходять з беку, можуть змінюватись)
-  const [statuses] = useState<string[]>([
-    "planned",
-    "open",
-    "in-progress",
-    "done",
-  ]);
+  const [statuses] = useState<string[]>(columns);
 
   useEffect(() => {
     const getItems = () => {
-      array.map((item) => statuses.push(item.status));
+      // setItems(array.filter((item) => item[itemField] === ));
+
+      // let defaultItems = {};
+      // for (const key of columns) {
+      //   (defaultItems as Record<string, Task[]>)[key] = array.filter(
+      //     (item) => key === (item as Task)[itemField]
+      //   );
+      // }
+
+      array.map((item) => statuses.push(item[itemField] as string));
       const newArray = array.sort((a, b) => a.priority - b.priority);
       const resultStatuses: string[] = statuses.filter(
         (item, index, newArray) => newArray.indexOf(item) === index
@@ -25,19 +37,21 @@ export const useGetItems = () => {
       const resultItems: Record<string, Task[]> = {};
       resultStatuses.forEach((item) => (resultItems[item] = []));
       newArray.forEach((item) => {
-        resultItems[item.status].push({
+        const newItem = {
           id: item.id,
           title: item.title,
           description: item.description,
-          status: item.status,
+          status: item[itemField],
           priority: item.priority,
-        });
+          // [item[itemField]]: item[itemField] as string,
+        };
+        resultItems[item[itemField]].push(newItem);
       });
 
       setItems(resultItems);
     };
     getItems();
-  }, [statuses]);
+  }, [array, itemField, statuses]);
 
   return { items, setItems };
 };

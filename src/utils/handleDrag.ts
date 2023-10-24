@@ -1,5 +1,5 @@
 import { DragOverEvent, DragEndEvent } from "@dnd-kit/core";
-import { Task } from "../interfaces/task";
+import { Task } from "../types/task";
 
 type Items = Record<string, Task[]>;
 
@@ -79,7 +79,8 @@ export const handleDragEnd = (
   setItems: React.Dispatch<
     React.SetStateAction<Record<string, Task[]> | undefined>
   >,
-  arrayMove: (arr: Task[], from: number, to: number) => Task[]
+  arrayMove: (arr: Task[], from: number, to: number) => Task[],
+  itemField: string
 ): void => {
   const { active, over } = event;
 
@@ -111,7 +112,7 @@ export const handleDragEnd = (
     const resultArray = prevItems[overContainer].map((item, index) => {
       if (index === prevItems[activeContainer].indexOf(objectWithOurIndex[0])) {
         const newItem = { ...item };
-        newItem.status = overContainer;
+        newItem[itemField] = overContainer;
         return newItem;
       } else {
         return item;
@@ -120,6 +121,16 @@ export const handleDragEnd = (
 
     return resultArray;
   };
+
+  // console.log(
+  //   "Оновлений масив, з новим елементом вкінці",
+  //   newArray(items) || []
+  // );
+  // console.log(
+  //   "Індекс елменту вкінці (для переміщення)",
+  //   items[activeContainer].indexOf(objectWithOurIndex[0])
+  // );
+  // console.log("Індекс місця, на яке треба перемістити елемент", overIndex);
 
   if (activeIndex !== overIndex) {
     setItems((prevItems) => {
