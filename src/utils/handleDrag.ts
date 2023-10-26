@@ -1,5 +1,6 @@
 import { DragOverEvent, DragEndEvent } from "@dnd-kit/core";
-import { Task } from "../types/task";
+import { ItemField } from "../types";
+import { Task } from "../types";
 
 type Items = Record<string, Task[]>;
 
@@ -8,22 +9,33 @@ export const handleDragOver = (
   setItems: React.Dispatch<
     React.SetStateAction<Record<string, Task[]> | undefined>
   >,
-  items: Items | undefined
+  items?: Items
 ): void => {
   const { active, over, activatorEvent } = event;
 
   const id = active?.id;
   const overId = over?.id;
+
   if (!overId) return;
+  // if (isNaN(overId)) return;
   if (!items) return;
+
+  console.log("id, overId", id, overId);
 
   const activeContainer = active.data.current?.sortable.containerId;
   const overContainer = over.data.current?.sortable.containerId || over.id;
-  if (activeContainer === overContainer) return;
+
+  console.log(
+    "activeContainer, overContainer",
+    !activeContainer,
+    !overContainer
+  );
 
   if (!activeContainer || !overContainer || activeContainer === overContainer) {
     return;
   }
+
+  console.log(1);
 
   setItems((prev) => {
     if (prev) {
@@ -75,12 +87,12 @@ export const handleDragOver = (
 
 export const handleDragEnd = (
   event: DragEndEvent,
-  items: Items | undefined,
+  items: Items,
   setItems: React.Dispatch<
     React.SetStateAction<Record<string, Task[]> | undefined>
   >,
   arrayMove: (arr: Task[], from: number, to: number) => Task[],
-  itemField: string
+  itemField: ItemField
 ): void => {
   const { active, over } = event;
 
@@ -112,7 +124,10 @@ export const handleDragEnd = (
     const resultArray = prevItems[overContainer].map((item, index) => {
       if (index === prevItems[activeContainer].indexOf(objectWithOurIndex[0])) {
         const newItem = { ...item };
-        newItem[itemField] = overContainer;
+        // if (itemField in item)
+        // if (itemField in newItem)
+        //   newItem[itemField as keyof Task] as Task = overContainer as string;
+        newItem[itemField] = overContainer as string;
         return newItem;
       } else {
         return item;
@@ -121,16 +136,6 @@ export const handleDragEnd = (
 
     return resultArray;
   };
-
-  // console.log(
-  //   "Оновлений масив, з новим елементом вкінці",
-  //   newArray(items) || []
-  // );
-  // console.log(
-  //   "Індекс елменту вкінці (для переміщення)",
-  //   items[activeContainer].indexOf(objectWithOurIndex[0])
-  // );
-  // console.log("Індекс місця, на яке треба перемістити елемент", overIndex);
 
   if (activeIndex !== overIndex) {
     setItems((prevItems) => {

@@ -2,12 +2,12 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { FC } from "react";
 import { getLightColor } from "../utils/index";
-import { Task } from "../types/task";
+import { ItemField, Task } from "../types";
 
 interface SortableItemProps {
   item: Task;
   id: string;
-  itemField: keyof Task;
+  itemField: ItemField;
 }
 
 const SortableItem: FC<SortableItemProps> = (props) => {

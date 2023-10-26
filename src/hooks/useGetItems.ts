@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-// import array from "../data/data.json";
-import { Task } from "../types/task";
+import type { ItemField, Task } from "../types";
 
 interface UseGetItemsProps {
   columns: string[];
   itemsOriginal: Task[];
-  itemField: keyof Task;
+  itemField: ItemField;
 }
 
 export const useGetItems = ({
@@ -19,11 +18,9 @@ export const useGetItems = ({
 
   useEffect(() => {
     const getItems = () => {
-      const newArray = array.sort((a, b) => a.priority - b.priority);
-
       const resultItems: Record<string, Task[]> = {};
       statuses.forEach((item) => (resultItems[item] = []));
-      newArray.forEach((item) => {
+      array.forEach((item) => {
         resultItems[item[itemField]].push(item);
       });
 

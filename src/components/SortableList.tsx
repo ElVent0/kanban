@@ -7,12 +7,12 @@ import SortableItem from "./SortableItem";
 import { useDroppable } from "@dnd-kit/core";
 import { AiOutlinePlus } from "react-icons/ai";
 import { getColor } from "../utils/index";
-import { Task } from "../types/task";
+import { ItemField, Task } from "../types";
 
 interface SortableListProps {
   items: Task[];
   id: string;
-  itemField: keyof Task;
+  itemField: ItemField;
 }
 
 const SortableList: FC<SortableListProps> = ({ items, id, itemField }) => {
@@ -22,7 +22,7 @@ const SortableList: FC<SortableListProps> = ({ items, id, itemField }) => {
 
   return (
     <ul
-      className={`w-64 mr-4 p-2 border rounded-xl`}
+      className={`w-64 mr-4 p-2 border rounded-xl `}
       style={{ backgroundColor: getColor(id) }}
     >
       <SortableContext

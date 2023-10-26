@@ -4,62 +4,62 @@
     "title": "Task #1",
     "description": "Description task #1",
     "status": "done",
-    "priority": 0
+    "priority": "P0"
   },
   {
     "id": 2,
     "title": "Task #2",
     "description": "Description task #2",
     "status": "open",
-    "priority": 1
+    "priority": "P1"
   },
   {
     "id": 3,
     "title": "Task #3",
     "description": "Description task #3",
     "status": "planned",
-    "priority": 5
+    "priority": "P5"
   },
   {
     "id": 4,
     "title": "Task #4",
     "description": "Description task #4",
     "status": "planned",
-    "priority": 1
+    "priority": "P1"
   },
   {
     "id": 5,
     "title": "Task #5",
     "description": "Description task #5",
     "status": "in-progress",
-    "priority": 4
+    "priority": "P4"
   },
   {
     "id": 6,
     "title": "Task #6",
     "description": "Description task #6",
     "status": "in-progress",
-    "priority": 2
+    "priority": "P2"
   },
   {
     "id": 7,
     "title": "Task #7",
     "description": "Description task #7",
     "status": "planned",
-    "priority": 3
+    "priority": "P3"
   },
   {
     "id": 8,
     "title": "Task #8",
     "description": "Description task #8",
     "status": "done",
-    "priority": 0
+    "priority": "P0"
   },
   {
     "id": 9,
     "title": "Task #9",
     "description": "Description task #9",
     "status": "done",
-    "priority": 1
+    "priority": "P1"
   }
 ]
