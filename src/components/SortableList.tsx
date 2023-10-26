@@ -3,11 +3,10 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import SortableItem from "./SortableItem";
 import { useDroppable } from "@dnd-kit/core";
-import { AiOutlinePlus } from "react-icons/ai";
 import { getColor } from "../utils/index";
 import { ItemField, Task } from "../types";
+import ListOfItems from "./ListOfItems";
 
 interface SortableListProps {
   items: Task[];
@@ -22,7 +21,7 @@ const SortableList: FC<SortableListProps> = ({ items, id, itemField }) => {
 
   return (
     <ul
-      className={`w-64 mr-4 p-2 border rounded-xl `}
+      className={`w-64 mr-4 p-2 border rounded-xl`}
       style={{ backgroundColor: getColor(id) }}
     >
       <SortableContext
@@ -32,37 +31,11 @@ const SortableList: FC<SortableListProps> = ({ items, id, itemField }) => {
       >
         {!items.length ? (
           <div ref={setNodeRef}>
-            {items.length ? (
-              items.map((item, index) => (
-                <SortableItem
-                  key={index}
-                  item={item}
-                  id={id}
-                  itemField={itemField}
-                />
-              ))
-            ) : (
-              <div className="h-20 flex justify-center items-center">
-                <AiOutlinePlus className="text-white w-8 h-8" />
-              </div>
-            )}
+            <ListOfItems items={items} id={id} itemField={itemField} />
           </div>
         ) : (
           <>
-            {items.length ? (
-              items.map((item, index) => (
-                <SortableItem
-                  key={index}
-                  item={item}
-                  id={id}
-                  itemField={itemField}
-                />
-              ))
-            ) : (
-              <div className="h-20 flex justify-center items-center">
-                <AiOutlinePlus className="text-white w-8 h-8" />
-              </div>
-            )}
+            <ListOfItems items={items} id={id} itemField={itemField} />
           </>
         )}
       </SortableContext>
