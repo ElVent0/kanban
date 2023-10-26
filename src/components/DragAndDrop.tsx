@@ -48,6 +48,7 @@ const DragAndDrop: FC<DragAndDropProps> = ({
     itemField,
   });
   const sensors = useDefaultSensors();
+
   return (
     <div className="p-10 bg-white text-gray-800 select-none flex justify-center">
       <DndContext

@@ -16,26 +16,17 @@ export const handleDragOver = (
   const id = active?.id;
   const overId = over?.id;
 
-  if (!overId) return;
-  // if (isNaN(overId)) return;
-  if (!items) return;
-
   console.log("id, overId", id, overId);
+
+  if (!overId) return;
+  if (!items) return;
 
   const activeContainer = active.data.current?.sortable.containerId;
   const overContainer = over.data.current?.sortable.containerId || over.id;
 
-  console.log(
-    "activeContainer, overContainer",
-    !activeContainer,
-    !overContainer
-  );
-
   if (!activeContainer || !overContainer || activeContainer === overContainer) {
     return;
   }
-
-  console.log(1);
 
   setItems((prev) => {
     if (prev) {
@@ -98,12 +89,12 @@ export const handleDragEnd = (
 
   const id = active?.id;
   const overId = over?.id;
+
   if (!overId) return;
   if (!items) return;
 
   const activeContainer = active.data.current?.sortable.containerId;
   const overContainer = over.data.current?.sortable.containerId || over.id;
-  // if (activeContainer === overContainer) return;
 
   if (!activeContainer || !overContainer || activeContainer !== overContainer) {
     return;
@@ -124,9 +115,6 @@ export const handleDragEnd = (
     const resultArray = prevItems[overContainer].map((item, index) => {
       if (index === prevItems[activeContainer].indexOf(objectWithOurIndex[0])) {
         const newItem = { ...item };
-        // if (itemField in item)
-        // if (itemField in newItem)
-        //   newItem[itemField as keyof Task] as Task = overContainer as string;
         newItem[itemField] = overContainer as string;
         return newItem;
       } else {
@@ -137,18 +125,16 @@ export const handleDragEnd = (
     return resultArray;
   };
 
-  if (activeIndex !== overIndex) {
-    setItems((prevItems) => {
-      if (prevItems) {
-        return {
-          ...prevItems,
-          [overContainer]: arrayMove(
-            newArray(prevItems) || [],
-            prevItems[activeContainer].indexOf(objectWithOurIndex[0]),
-            overIndex
-          ),
-        };
-      }
-    });
-  }
+  setItems((prevItems) => {
+    if (prevItems) {
+      return {
+        ...prevItems,
+        [overContainer]: arrayMove(
+          newArray(prevItems) || [],
+          prevItems[activeContainer].indexOf(objectWithOurIndex[0]),
+          overIndex
+        ),
+      };
+    }
+  });
 };

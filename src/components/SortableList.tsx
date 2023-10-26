@@ -30,22 +30,41 @@ const SortableList: FC<SortableListProps> = ({ items, id, itemField }) => {
         items={items}
         strategy={verticalListSortingStrategy}
       >
-        <div ref={setNodeRef}>
-          {items.length > 0 ? (
-            items.map((item, index) => (
-              <SortableItem
-                key={index}
-                item={item}
-                id={id}
-                itemField={itemField}
-              />
-            ))
-          ) : (
-            <div className="h-20 flex justify-center items-center">
-              <AiOutlinePlus className="text-white w-8 h-8" />
-            </div>
-          )}
-        </div>
+        {!items.length ? (
+          <div ref={setNodeRef}>
+            {items.length ? (
+              items.map((item, index) => (
+                <SortableItem
+                  key={index}
+                  item={item}
+                  id={id}
+                  itemField={itemField}
+                />
+              ))
+            ) : (
+              <div className="h-20 flex justify-center items-center">
+                <AiOutlinePlus className="text-white w-8 h-8" />
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            {items.length ? (
+              items.map((item, index) => (
+                <SortableItem
+                  key={index}
+                  item={item}
+                  id={id}
+                  itemField={itemField}
+                />
+              ))
+            ) : (
+              <div className="h-20 flex justify-center items-center">
+                <AiOutlinePlus className="text-white w-8 h-8" />
+              </div>
+            )}
+          </>
+        )}
       </SortableContext>
     </ul>
   );
